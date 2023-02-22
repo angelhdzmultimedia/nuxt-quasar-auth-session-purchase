@@ -14,6 +14,12 @@ import {
 } from 'quasar'
 
 const auth = useAuthStore()
+
+async function logout(): Promise<void> {
+  await auth.logout()
+  alert('after logout')
+  navigateTo('/login')
+}
 </script>
 
 <template>
@@ -48,7 +54,7 @@ const auth = useAuthStore()
               </QItem>
               <QItem v-if="auth.isAuth">
                 <QItemSection>
-                  <QBtn color="primary">Logout</QBtn>
+                  <QBtn @click="logout" color="primary">Logout</QBtn>
                 </QItemSection>
               </QItem>
             </QList>

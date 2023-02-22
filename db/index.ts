@@ -25,6 +25,12 @@ export function createPurchase(purchase: Purchase) {
   purchases.push(purchase)
 }
 
+export function deleteTokenByToken(token: string) {
+  const _token: Token | undefined = findTokenByToken(token)
+  const index: number = tokens.indexOf(_token!)
+  tokens.splice(index, 1)
+}
+
 export function findPurchase(purchase: Purchase) {
   return purchases.find((item) => {
     return item.userId === purchase.userId && item.action === purchase.action

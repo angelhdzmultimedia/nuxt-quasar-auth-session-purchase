@@ -46,24 +46,31 @@ export function Store(...args: any[]) {
 @Store()
 class AuthStore {
   public isAuth: boolean = false
-  public user: _User | null = null
+  public user: _User | undefined = undefined
   public isLoading: boolean = false
 
   public async login(loginData: LoginData) {
     this.isLoading = true
     await wait(250)
-    const data = await api.post('/api/auth/login', loginData)
+    const data = await api.post<LoginData, _User>('/api/auth/login', loginData)
     this.isLoading = false
-    this.user = data
+    this.user = data as _User
     this.isAuth = true
+  }
+
+  public async logout(): Promise<void> {
+    await api.get('/api/auth/logout')
+    alert('bla')
+    this.user = undefined
+    this.isAuth = false
   }
 
   public async findProfile() {
     try {
       this.isLoading = true
       await wait(250)
-      const data = await api.get('/api/auth/profile')
-      this.user = data
+      const data = await api.get<_User>('/api/auth/profile')
+      this.user = data!
       this.isAuth = true
     } catch (error) {
     } finally {
